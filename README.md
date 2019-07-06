@@ -104,9 +104,10 @@ You will find an example bash script for assuming roles in the `./useful/` folde
 
 These are all derived from real projects, but with names changed to protect the innocent. You can find them in the `./examples` folder, but here is an overview of each:
 
-* `./examples/s3-fetch-parse`: Downloading multiple files from a bucket, parsing, outputting file. Run with `npm run example-1`
-* `./examples/sts-assume-s3-push-via-nodejs`: Assume a role, push a file to S3 as role via node.js. Run with `npm run example-2`
-* `./examples/sts-assume-s3-push-via-nodejs-in-docker`: Same as above, but them deployment is done from within Docker. Run with `npm run example-3`
+* `./examples/01_s3-fetch-parse`: Downloading multiple files from a bucket, parsing, outputting file. Run with `npm run example-1`
+* `./examples/02_sts-assume-s3-push-via-nodejs`: Assume a role, push a file to S3 as role via node.js. Run with `npm run example-2`
+* `./examples/03_sts-assume-via-bash-s3-push-via-nodejs`: Same as above, but them deployment is done from within Docker. Run with `npm run example-3`
+* `./examples/04_dockerised-app-to-localstack`: Spins up a docker-compose with app and localstack S3. Run with `npm run example-4`
   
 **TODO**
 

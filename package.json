@@ -4,9 +4,10 @@
   "description": "A couple of quick scenarios where localstack was useful",
   "main": "index.js",
   "scripts": {
-    "example-1": "node examples/s3-fetch-parse",
-    "example-2": "node examples/sts-assume-s3-push-via-nodejs",
-    "example-3": "cd examples/sts-assume-via-bash-s3-push-via-nodejs && ./run.sh"
+    "example-1": "node examples/01_s3-fetch-parse",
+    "example-2": "node examples/02_sts-assume-s3-push-via-nodejs",
+    "example-3": "cd examples/03_sts-assume-via-bash-s3-push-via-nodejs && ./run.sh",
+    "example-4": "cd examples/04_dockerised-app-to-localstack && ./run.sh"
   },
   "author": "Michael Griffiths <michael@ildesigns.co.uk>",
   "license": "ISC",
