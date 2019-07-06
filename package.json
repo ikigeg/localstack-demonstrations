@@ -1,12 +1,12 @@
 {
-  "name": "s3-fetch-parse-push",
+  "name": "localstack-demonstrations",
   "version": "1.0.0",
-  "description": "",
+  "description": "A couple of quick scenarios where localstack was useful",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "Michael Griffiths <michael@ildesigns.co.uk>",
   "license": "ISC",
   "dependencies": {
     "aws-sdk": "^2.488.0",
