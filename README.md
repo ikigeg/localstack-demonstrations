@@ -12,6 +12,8 @@ Localstack info can be found on [github](https://github.com/localstack/localstac
 
 First things first, you need to somehow install localstack. My preferred method of doing this is with docker, but you can install it globally to your machine for a more permanent solution.
 
+Once you have it installed and running you can access it's rather lacklustre GUI to see various bits [here](http://localhost:8080)
+
 ### Installing
 
 #### Installing and running locally
@@ -23,7 +25,7 @@ Once installed, run with `localstack start`
 
 The `SERVICES` env var is a comma delimited string of all the services you want to use, each has a corresponding port that you have to expose, or you can just go ahead and expose the entire range.
 
-`docker run -d -p "4567-4592:4567-4592" -e SERVICES=s3,sts --name my_localstack localstack/localstack`
+`docker run -d -p "4567-4592:4567-4592" -p "8080:8080" -e SERVICES=s3,sts --name my_localstack localstack/localstack`
 
 #### Running via docker-compose file
 
@@ -111,14 +113,50 @@ docker-compose up -d
 
 All the examples were derived from real projects, but with names changed to protect the innocent. You can find them in the `./examples` folder, but here is an overview of each:
 
-* `./examples/01_s3-fetch-parse`: Downloading multiple files from a bucket, parsing, outputting file. Run with `npm run example-1`
-* `./examples/02_sts-assume-s3-push-via-nodejs`: Assume a role, push a file to S3 as role via node.js. Run with `npm run example-2`
-* `./examples/03_sts-assume-via-bash-s3-push-via-nodejs`: Same as above, but them deployment is done from within Docker. Run with `npm run example-3`
-* `./examples/04_dockerised-app-to-localstack`: Spins up a docker-compose with app and localstack S3. Run with `npm run example-4`
-  
-**TODO**
+### Example 1
 
-Lambda example
+**Located:** `./examples/01_s3-fetch-parse`
+**Scenario:** You have lots of files in an S3 bucket, and you want to download all of them, parse them then do something with them.
+**What does this example do:** Fetches all file keys in a bucket recursively (owing to max 1000 keys fetched at a time) and stores them to a db. The it loops through all those keys, downloads each of the files, parses it, stores resulting data into a separate db.
+
+To demonstrate this behavior properly we first need a bucket with some files in it, so first of all run:
+```
+npm run example-1-load
+```
+From the output you will see a random bucketName, use that to replace *bucketName* in the next command:
+```
+npm run example-1 -- bucketName
+```
+
+Once both commands are completed you will be able to see the outputted database files in the `.db/` folder from the root in the project.
+
+### Example 2
+
+**Located:** `./examples/02_sts-assume-s3-push-via-nodejs`
+**Scenario:** You don't have permissions to access a bucket for uploading files, but you can assume a role that does.
+**What does this example do:** Fetches all file keys in a bucket and stores them to a db, loops through all the keys, downloads the files, parses them, stores resulting data into a separate db.
+
+Run the example with `npm run example-2`
+
+### Example 3
+
+**Located:** `./examples/03_sts-assume-via-bash-s3-push-via-nodejs`
+**Scenario:** Your CI/CD pipeline runs as a user that can assume roles but your deployment does not.
+**What does this example do:** Runs a bash script which assumes the required roles, then passes the credentials as environment variables to a node script, which uploads a file to the s3 bucket.
+
+Run the example with `npm run example-3`
+
+### Example 4
+
+**Located:** `./examples/04_dockerised-app-to-localstack`
+**Scenario:** Your enviroment requires that everything runs inside of docker, so you'd like to talk to localstack from within that environment,
+**What does this example do:** Spins up your app and localstack via docker-compose then uploads a file to an s3 bucket.
+
+Run the example with `npm run example-4`
+
+### Example 5
+
+**TODO** Lambda example
 
 ## Presentation stages
 
