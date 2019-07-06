@@ -158,6 +158,8 @@ Run the example with `npm run example-4`
 
 **TODO** Lambda example
 
+In the meantime here is an interesting example with api-gateway https://gist.github.com/crypticmind/c75db15fd774fe8f53282c3ccbe3d7ad
+
 ## Presentation stages
 
 1. AWS overview
