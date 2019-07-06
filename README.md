@@ -102,7 +102,14 @@ You will find an example bash script for assuming roles in the `./useful/` folde
 
 ## Example Scenarios
 
-These are all derived from real projects, but with names changed to protect the innocent. You can find them in the `./examples` folder, but here is an overview of each:
+To get started with this example repo:
+
+```
+npm i
+docker-compose up -d
+```
+
+All the examples were derived from real projects, but with names changed to protect the innocent. You can find them in the `./examples` folder, but here is an overview of each:
 
 * `./examples/01_s3-fetch-parse`: Downloading multiple files from a bucket, parsing, outputting file. Run with `npm run example-1`
 * `./examples/02_sts-assume-s3-push-via-nodejs`: Assume a role, push a file to S3 as role via node.js. Run with `npm run example-2`
