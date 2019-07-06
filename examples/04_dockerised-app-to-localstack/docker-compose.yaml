@@ -6,12 +6,9 @@ services:
       context: ../..
       dockerfile: ${PWD}/Dockerfile
     depends_on:
-      - localstack
-  localstack:
-    container_name: localstack
+      - localstack-app-demo
+  localstack-app-demo:
+    container_name: localstack-app-demo
     image: localstack/localstack
-    ports:
-      - "8080:8080"
-      - "4567-4592:4567-4592"
     environment:
       - SERVICES=s3,sts

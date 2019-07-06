@@ -13,8 +13,9 @@ if (!DOCKER_INSTANCE) {
 }
 
 // setup our S3 instance pointed at the localstack container
+// different port to avoid conflicting other running localstacks
 const s3 = new S3Factory({
-  endpoint: 'http://localstack:4572',
+  endpoint: 'http://localstack-app-demo:4572',
 });
 
 async function uploadGetParse() {
