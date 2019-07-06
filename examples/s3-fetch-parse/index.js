@@ -1,7 +1,5 @@
-const Nedb = require('nedb');
-const promisifyNeDB = require('./promisify-nedb');
-
-const { listObjects, getObject } = require('./bucketOperations');
+const S3Factory = require('../../shared/s3');
+const DatabasesFactory = require('../../shared/databases');
 
 // Process arguments
 const [ ,, bucketName, basePath = '' ] = process.argv || [];
@@ -9,11 +7,11 @@ if (!bucketName) {
   throw new Error('Missing bucketName argument');
 }
 
-// Configure and promisify some persistent db's
-const dbs = {
-  keys: promisifyNeDB(new Nedb({ filename: `.db/${bucketName}-keys`, autoload: true })),
-  contents: promisifyNeDB(new Nedb({ filename: `.db/${bucketName}-contents`, autoload: true })),
-};
+// Setup our S3 connection
+const s3 = new S3Factory();
+
+// Prepare databases for both the keys and contents
+const dbs = DatabasesFactory(bucketName, [ 'keys', 'contents' ]);
 
 // function to fetch all the keys from the bucket
 async function fetchAllBucketKeys({
@@ -22,7 +20,7 @@ async function fetchAllBucketKeys({
 } = {}) {
   let listObjectsResponse;
   try {
-    listObjectsResponse = await listObjects({
+    listObjectsResponse = await s3.listObjects({
       bucket: bucketName,
       basePath,
       quantityPerPage: 100,
@@ -128,7 +126,7 @@ async function processKeys({
 
       let fetchedFile;
       try {
-        fetchedFile = await getObject({
+        fetchedFile = await s3.getObject({
           bucket: bucketName,
           key,
         });
@@ -197,7 +195,9 @@ async function processKeys({
 };
 
 async function doTheStuff() {
+  console.log(`\n************ STARTING ${__filename} ************\n`);
   await fetchAllBucketKeys();
   await processKeys();
+  console.log(`\n************ FINISHED ${__filename} ************\n`);
 }
 doTheStuff();

@@ -1,32 +1,23 @@
-const AWS = require('aws-sdk');
 const faker = require('faker');
+const S3Factory = require('../../shared/s3');
 
 // Get any arguments passed into the script
-const [ ,, bucketName = faker.lorem.slug(), quantity = 1000 ] = process.argv || [];
+const [ ,, bucketName = faker.lorem.slug(), quantity = 1100 ] = process.argv || [];
 
-// Initiate our S3 client configuration
-const s3 = new AWS.S3({
-  endpoint: 'http://localhost:4572', // localstack
-  /*
-    `s3ForcePathStyle: false` = http://my-bucket.localhost:4572
-    `s3ForcePathStyle: true` = http://localhost:4572/my-bucket
-  */
-  s3ForcePathStyle: true,
-});
+// Setup our S3 connection
+const s3 = new S3Factory();
 
-function doNicerExit(error) {
-  console.log(error);
-  process.exit(1);
-}
+async function loadDummyData() {
+  console.log(`\n************ STARTING ${__filename} ************\n`);
 
-// Start with creating the bucket
-console.log(`CREATING BUCKET ${bucketName}`);
-s3.createBucket({ Bucket: bucketName }, async (err) => {
-  if (err) {
-    return doNicerExit(`Something went wrong creating the bucket: ${err.message}`);
+  try {
+    console.log(`CREATING BUCKET ${bucketName}`);
+    await s3.createBucket(bucketName);
+    console.log(`CREATED BUCKET ${bucketName}`);
+  } catch (err) {
+    throw new Error(`Something went wrong creating the bucket: ${err.message}`);
   }
 
-  console.log(`CREATED BUCKET ${bucketName}`);
   let month = 0;
   let day = 0;
 
@@ -52,25 +43,27 @@ s3.createBucket({ Bucket: bucketName }, async (err) => {
     };
 
     await new Promise((resolve, reject) => {
-      setTimeout(() => {
-        s3.putObject(params, err => {
-          if (err) {
-            console.log(err);
-            reject();
-          } else {
-            if (i % 50 === 0 && i > 0) {
-              console.log(
-                `${i} FILES CREATED, ${quantity - i} TO GO - ${new Date()}`,
-              );
-            }
-            resolve();
+      setTimeout(async () => {
+        try {
+          await s3.putObject(params);
+
+          if (i % 50 === 0 && i > 0) {
+            console.log(
+              `${i} FILES CREATED, ${quantity - i} TO GO - ${new Date()}`,
+            );
           }
-        });
+          resolve();
+        } catch (err) {
+          console.log(err);
+          reject();
+        }
       }, 10);
     });
   }
 
   console.log(`BUCKET ${bucketName} READY WITH ${quantity} FILES`);
-});
+  
+  console.log(`\n************ FINISHED ${__filename} ************\n`);
+}
 
-
+loadDummyData();
