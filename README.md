@@ -76,7 +76,7 @@ First spin up your localstack instance. Once it is up and running you are going 
 This is the role mananging service for AWS, and what you are interacting with whenever you have to assume different roles. The localstack version of this is super basic, and doesn't actually do anything other than return the same credentials each time, but does let you simulate the interaction. To assume the role run the following, replacing AWS_ROLE to match the expected ARN of the role, and the ROLE_SESSION_NAME as an identifier for the session:
 
 ```
-aws --endpoint-url=http://localhost:4592 sts assume-role --role-arn "AWS_ROLE" --role-session-name "ROLE_SESSION_NAME"
+aws --endpoint-url=http://localhost:4592 sts assume-role --role-arn "arn:aws:sts::123456789012" --role-session-name "ROLE_SESSION_NAME"
 ```
 
 The above command will give you a JSON object resembling:
