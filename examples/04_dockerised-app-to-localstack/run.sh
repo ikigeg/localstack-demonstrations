@@ -1,3 +1,4 @@
 #!/bin/bash
 
-docker build --rm --squash -t localstack-demo/example .
+# spin up docker and wait for localstack to be ready with a dummy bucket
+docker-compose -f docker-compose.yaml up --build --remove-orphans --exit-code-from example-app

@@ -2,7 +2,11 @@ version: '3'
 
 services:
   example-app:
-    build: .
+    build:
+      context: ../..
+      dockerfile: ${PWD}/Dockerfile
+    depends_on:
+      - localstack
   localstack:
     container_name: localstack
     image: localstack/localstack
