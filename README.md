@@ -161,7 +161,7 @@ Once both commands are completed you will be able to see the outputted database 
 ### Example 2
 
 **Located:** `./examples/02_sts-assume-s3-push-via-nodejs`
-**Scenario:** You don't have permissions to access a bucket for uploading files, but you can assume a role that does.
+**Scenario:** You need to upload files to a bucket, but don't have the permissions to do so. You do however have permissions to assume a role that does.
 **What does this example do:** Assumes a specific role via the SDK, connects to S3 using the assumed credentials, uploads a file.
 **Why:** Roles and required permissions might not be configured when prototyping.
 
