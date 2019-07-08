@@ -52,7 +52,7 @@ Once installed, run with `localstack start`
 
 The `SERVICES` env var is a comma delimited string of all the services you want to use, each has a corresponding port that you have to expose, or you can just go ahead and expose the entire range.
 
-`docker run -d -p "4567-4592:4567-4592" -p "8080:8080" -e SERVICES=s3,sts --name my_localstack localstack/localstack`
+`docker run -d --rm -p "4567-4592:4567-4592" -p "8080:8080" -e SERVICES=s3,sts --name my_localstack localstack/localstack`
 
 #### Running via docker-compose file
 
