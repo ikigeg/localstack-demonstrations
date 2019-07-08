@@ -145,6 +145,7 @@ All the examples were derived from real projects, but with names changed to prot
 **Located:** `./examples/01_s3-fetch-parse`
 **Scenario:** You have lots of files in an S3 bucket, and you want to download all of them, parse them then do something with them.
 **What does this example do:** Fetches all file keys in a bucket recursively (owing to max 1000 keys fetched at a time) and stores them to a db. The it loops through all those keys, downloads each of the files, parses it, stores resulting data into a separate db.
+**Why:** Depending on the number of files, and the amount of attempts you make during prototyping, you will probably have costs in mind. As an example, with the first 50TB transferred to/from a bucket, you would be charged $0.023 per GB.
 
 To demonstrate this behavior properly we first need a bucket with some files in it, so first of all run:
 ```
@@ -161,7 +162,8 @@ Once both commands are completed you will be able to see the outputted database 
 
 **Located:** `./examples/02_sts-assume-s3-push-via-nodejs`
 **Scenario:** You don't have permissions to access a bucket for uploading files, but you can assume a role that does.
-**What does this example do:** Fetches all file keys in a bucket and stores them to a db, loops through all the keys, downloads the files, parses them, stores resulting data into a separate db.
+**What does this example do:** Assumes a specific role via the SDK, connects to S3 using the assumed credentials, uploads a file.
+**Why:** Roles and required permissions might not be configured when prototyping.
 
 Run the example with `npm run example-2`
 
